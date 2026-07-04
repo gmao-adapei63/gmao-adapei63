@@ -47,6 +47,7 @@
             <span class="header-subtitle">GMAO Tactical V9</span>
         </div>
         <div class="header-actions">
+            <button class="btn-icon" onclick="openGlobalSearch()" title="Recherche">🔍</button>
             <button class="btn-icon" onclick="openScanner()" title="Scanner QR Code">📷</button>
             <button class="btn-icon" id="gh-sync-badge" onclick="forceSyncGitHub()" title="Synchronisation GitHub" style="display:none;font-size:.9rem;padding:4px 8px">☁️</button>
             <button class="btn-icon" onclick="toggleTheme()" title="Mode Clair/Sombre">🌓</button>
@@ -181,6 +182,24 @@
     </div>
 
     <nav class="bottom-nav" id="bottom-nav"></nav>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     RECHERCHE GLOBALE (V1.6)
+═══════════════════════════════════════════════════════════════ -->
+<div class="search-overlay" id="global-search-overlay">
+    <div class="search-bar">
+        <span class="search-bar-icon">🔍</span>
+        <input type="text" id="global-search-input" class="search-input"
+               placeholder="Rechercher dans toute l'application…" autocomplete="off"
+               oninput="onGlobalSearchInput(this.value)">
+        <button class="search-mic-btn" id="global-search-mic" onclick="startVoiceSearch()" title="Recherche vocale">🎤</button>
+        <button class="search-close-btn" onclick="closeGlobalSearch()" title="Fermer">&times;</button>
+    </div>
+    <div class="search-listening-indicator" id="search-listening-indicator" style="display:none">
+        <span class="search-listening-dot"></span> Écoute en cours…
+    </div>
+    <div class="search-results" id="global-search-results"></div>
 </div>
 
 <!-- TOAST ALARMES -->
@@ -646,6 +665,7 @@
      JAVASCRIPT
 ════════════════════════════════════════════════════════════════════ -->
 <script src="app.js"></script>
+<script src="search.js"></script>
 <script type="module" src="firebase-init.js"></script>
 </body>
 </html>

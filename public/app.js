@@ -66,6 +66,9 @@ function ensureStateDefaults(){
             if(def) appState.navConfig.push(JSON.parse(JSON.stringify(def)));
         }
     });
+    // Reconstruit l'index de recherche à chaque (ré)application de l'état
+    // (chargement initial, import, sync GitHub/Firebase/temps réel).
+    if(window.SearchEngine) SearchEngine.rebuild();
 }
 
 let activeDate      = '';
@@ -245,6 +248,7 @@ function saveData(){
     appState._savedAt = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
     updateDashboard();
+    if(window.SearchEngine) SearchEngine.rebuild();
     scheduleGitHubPush();
     scheduleFirebasePush(); // ← ligne manquante
     if(!ghApiUrl()){
@@ -1828,12 +1832,21 @@ function closeModal(id){ document.getElementById(id).classList.remove('active');
 
 // ===== V1.5 Navigation Manager =====
 // Ordre de priorité du bouton Retour Android :
+//   0) Recherche globale ouverte    → la fermer
 //   1) Modale ouverte              → la fermer
 //   2) Sidebar ouvert               → le fermer
 //   3) Vue courante ≠ accueil       → remonter d'une vue dans la pile (autant de fois que nécessaire)
 //   4) Sur l'accueil                → double retour pour quitter l'appli
 let __lastBack = 0;
 window.addEventListener('popstate', ()=>{
+    // 0) Recherche globale ouverte → priorité absolue à sa fermeture
+    const searchOverlay = document.getElementById('global-search-overlay');
+    if(searchOverlay && searchOverlay.classList.contains('active')){
+        if(window.closeGlobalSearch) closeGlobalSearch();
+        history.pushState({gmao: Date.now()}, '');
+        return;
+    }
+
     // 1) Modale ouverte → priorité à sa fermeture
     const modal = document.querySelector('.modal.active');
     if(modal){
