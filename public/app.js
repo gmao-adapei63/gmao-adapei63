@@ -1819,3 +1819,19 @@ function initPlanZoomHandlers(){
 // ─────────────────────────────────────────────────────────────────
 function generateUUID(){ return Math.random().toString(36).substring(2,10)+Date.now().toString(36); }
 function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+
+
+// ===== V1.5 Navigation Manager =====
+let __lastBack=0;
+window.addEventListener('popstate',(e)=>{
+ const modal=document.querySelector('.modal.active');
+ if(modal){ if(window.closeModal) closeModal(modal.id); history.pushState({},''); return; }
+ const now=Date.now();
+ if(now-__lastBack<2000){
+   if(window.Android&&Android.finish) Android.finish();
+ }else{
+   __lastBack=now;
+   alert("Appuyez une seconde fois sur Retour pour quitter.");
+   history.pushState({},'');
+ }
+});
