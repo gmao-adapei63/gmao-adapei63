@@ -55,12 +55,13 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="btn-icon" onclick="openGlobalSearch()" title="Recherche">🔍</button>
+			<button class="btn-icon" onclick="toggleTheme()" title="Mode Clair/Sombre">🌓</button>
+        	<button class="btn-icon" id="home-edit-toggle" onclick="toggleHomeEditMode()" title="Modifier l'accueil">✏️</button>
             <button class="btn-icon" onclick="openScanner()" title="Scanner QR Code">📷</button>
+            <button class="btn-icon" onclick="openGlobalSearch()" title="Recherche">🔍</button>
             <button class="btn-icon" id="gh-sync-badge" onclick="forceSyncGitHub()" title="Synchronisation GitHub" style="display:none;font-size:.9rem;padding:4px 8px">☁️</button>
-            <button class="btn-icon" onclick="toggleTheme()" title="Mode Clair/Sombre">🌓</button>
             <button class="btn-icon" onclick="toggleSidebar()" title="Menu">☰</button>
-        </div>
+		</div>
     </header>
 
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
@@ -115,10 +116,6 @@
                     <span class="home-launcher-icon">🗺️</span>
                     <span class="home-launcher-label">Plans du<br>site</span>
                 </button>
-            </div>
-
-            <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
-                <button class="btn-icon" id="home-edit-toggle" onclick="toggleHomeEditMode()" title="Modifier l'accueil">✏️ Modifier l'accueil</button>
             </div>
 
             <div class="dashboard-grid" id="home-tiles">
